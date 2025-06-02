@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Analytics Dashboard</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>📊 Analytics Dashboard</h1>
+
+    <div class="card">
+        <h2>Total Users</h2>
+        <p>{{ total_users }}</p>
+    </div>
+
+    <div class="card">
+        <h2>Top 5 Savers</h2>
+        <ul>
+            {% for name, amount in top_users %}
+                <li>{{ name }} - ${{ '{:.2f}'.format(amount) }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>💸 Daily Transaction Trends</h2>
+        <canvas id="transactionChart" height="100"></canvas>
+    </div>
+
+    <div class="card">
+        <h2>🛑 Inactive Accounts (No Activity in Last 3 Months)</h2>
+        <table>
+            <tr>
+                <th>Account ID</th>
+                <th>User ID</th>
+                <th>Name</th>
+            </tr>
+            {% for acc_id, user_id, name in inactive_accounts %}
+                <tr>
+                    <td>{{ acc_id }}</td>
+                    <td>{{ user_id }}</td>
+                    <td>{{ name }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('transactionChart').getContext('2d');
+        const transactionChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: {{ trend_dates | tojson }},
+                datasets: [
+                    {
+                        label: 'Deposits',
+                        data: {{ deposits | tojson }},
+                        borderColor: 'green',
+                        fill: false
+                    },
+                    {
+                        label: 'Withdrawals',
+                        data: {{ withdrawals | tojson }},
+                        borderColor: 'red',
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

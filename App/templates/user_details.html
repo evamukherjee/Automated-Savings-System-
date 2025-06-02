@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 40px;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .nav-button {
+            padding: 15px 30px;
+            font-size: 16px;
+            background-color: #2d89ef;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .nav-button:hover {
+            background-color: #1b5bbf;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome, {{ user['Name'] }}!</h1>
+    <p>Email: {{ user['Email'] }}</p>
+    <p>Bank Balance: ${{ user['Bank_Balance'] }}</p>
+
+    <div class="button-container">
+        <form action="/transactions/{{ user['User_ID'] }}/{{ account_id }}">
+            <button class="nav-button">Transactions</button>
+        </form>
+        <form action="/savings_rules/{{ user['User_ID'] }}/{{ account_id }}">
+            <button class="nav-button">Saving Rules</button>
+        </form>
+        <form action="/savings_goals/{{ user['User_ID'] }}/{{ account_id }}">
+            <button class="nav-button">Saving Goals</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Savings Rules</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 40px;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0;
+            right: 0; bottom: 0;
+            background-color: #ccc;
+            transition: 0.4s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px; width: 18px;
+            left: 3px; bottom: 3px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #4caf50;
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .form-container form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        select, input[type="text"], input[type="number"], button {
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #2d89ef;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #1b5bbf;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Savings Rules</h1>
+
+<table>
+    <tr>
+        <th>Rule ID</th>
+        <th>Type</th>
+        <th>Condition</th>
+        <th>Created At</th>
+        <th>Active</th>
+    </tr>
+    {% for rule in rules %}
+    <tr>
+        <td>{{ rule[0] }}</td>
+        <td>{{ rule[2] }}</td>
+        <td>{{ rule[3] }}</td>
+        <td>{{ rule[5] }}</td>
+        <td>
+            <label class="switch">
+                <input type="checkbox" data-rule-id="{{ rule[0] }}" {% if rule[4] %}checked{% endif %}>
+                <span class="slider"></span>
+            </label>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<div class="form-container">
+    <h2>Add New Rule</h2>
+    <form method="POST">
+        <select name="rule_type" required>
+            <option value="">-- Select Rule Type --</option>
+            <option value="Round-Up">Round-Up</option>
+            <option value="Fixed">Fixed</option>
+            <option value="Percentage">Percentage</option>
+        </select>
+        <input type="text" name="rule_condition" placeholder="Enter Rule Condition" required>
+        <!-- Hidden field for account_id -->
+        <input type="hidden" name="account_id" value="{{ account_id }}"> <!-- Automatically passed from backend -->
+        <button type="submit">Add Rule</button>
+    </form>
+</div>
+
+<script>
+    document.querySelectorAll('input[type="checkbox"][data-rule-id]').forEach(checkbox => {
+        checkbox.addEventListener('change', function () {
+            const ruleId = this.getAttribute('data-rule-id');
+            const isActive = this.checked;
+
+            fetch(`/toggle_rule/${ruleId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ active: isActive })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (!data.success) {
+                    alert('Failed to update rule status');
+                }
+            })
+            .catch(() => {
+                alert('Error connecting to server');
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
