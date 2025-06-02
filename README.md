@@ -10,19 +10,19 @@ applying savings rules. The frontend is built with HTML and CSS, providing a use
 user details, adding transactions and setting savings goals and rules.
 
 ## Features
-- User Signup & Login: Simple registration with name, email, and bank balance
-- Track Transactions: Log everyday transactions like groceries or bills.
-- Set Savings Goals: Create goals like vacation, emergency fund, etc.
-- Create Savings Rules: Automatic savings rules like Round-Up, Fixed, or Percentage-based saving.
-- Track Progress: Visualize the progress of savings goals.
-- Analytics: An analytics section that uses user data to track spending patterns, monitor savings
+- **User Signup & Login:** Simple registration with name, email, and bank balance
+- **Track Transactions:** Log everyday transactions like groceries or bills.
+- **Set Savings Goals:** Create goals like vacation, emergency fund, etc.
+- **Create Savings Rules:** Automatic savings rules like Round-Up, Fixed, or Percentage-based saving.
+- **Track Progress:** Visualize the progress of savings goals.
+- **Analytics:** An analytics section that uses user data to track spending patterns, monitor savings
 growth and predict future trends.
 
 ## System Architecture
 #### Technologies Used:
-- Frontend: HTML, CSS
-- Backend: Python (Flask)
-- Database: PostgreSQL
+- **Frontend:** HTML, CSS
+- **Backend:** Python (Flask)
+- **Database:** PostgreSQL
 
 #### Architecture Overview:
 - User ↔ Flask App ↔ PostgreSQL Database
