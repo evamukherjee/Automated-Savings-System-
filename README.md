@@ -29,6 +29,6 @@ growth and predict future trends.
   - User inputs are processed by the Flask backend and stored in the database.
   - Data is retrieved and displayed in the frontend dynamically
  
-  ### Authors:
-  - Eva Mukherjee
-  - Maria Joseph
+ ### Authors:
+- Eva Mukherjee
+- Maria Joseph
